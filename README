@@ -1,0 +1,41 @@
+# dregex
+
+An implementation of the algorithm for building a DFA based on the
+paper by Scott Owens and John Reppy and Aaron Turon,
+"Regular-expression derivatives reexamined," which is a reexamination
+of Brzozowski's paper introducing the idea.
+
+Derivation is defined as such:
+ ∂a ε = ∅
+ ∂a a = ε
+ ∂a b = ∅ for b /= a
+ ∂a ∅ = ∅
+ ∂a (r · s) = ∂a r · s + ν (r) · ∂a s
+ ∂a (r∗ ) = ∂a r · r∗
+ ∂a (r + s) = ∂a r + ∂a s
+ ∂a (r & s) = ∂a r & ∂a s
+ ∂a ( ¬r) = ¬(∂ r)
+
+Nullability is defined as such:
+ ν (ε) = ε
+ ν (a) = ∅
+ ν ( ∅) = ∅
+ ν (r · s) = ν (r) & ν (s)
+ ν (r + s) = ν (r) + ν (s)
+ ν (r∗ ) = ε
+ ν (r & s) = ν (r) & ν (s)
+ ν ( ¬r) = {
+     ε if ν (r) = ∅
+     ∅ if ν (r) = ε
+ }
+
+
+## Usage
+
+FIXME: write
+
+## License
+
+Copyright (C) 2011 Andrew Gwozdziewycz
+
+Distributed under the Eclipse Public License, the same as Clojure.
