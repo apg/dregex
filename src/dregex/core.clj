@@ -207,7 +207,7 @@ an element of s"
   [n]
   (keyword (str "q" n)))
 
-(defn goto
+(defn- goto
   [q [Q labels d] S]
   (let [c (first S)
         qc (deriv q c)]
@@ -221,39 +221,23 @@ an element of s"
             Dp (assoc d new-label {S new-label})]
         (explore Qp labelsp Dp qc)))))
 
-(defn explore
+(defn- explore
   [Q labels d q]
   (reduce #(goto q %1 %2) [Q labels d] (C q)))
 
-(defn make-dfa
+(defn compile
   [re]
   (let [q0 (deriv re eps)
         [Q labels d] (explore {} {} {} q0)
         F (apply hash-set (map second (filter #(= (V (first %)) eps) Q)))]
-    [q0 Q labels d F]))
-
-
+    (reify DFA
+      (match [s]
+        false
+        ))))
 
 
 
 
 ;;(a + b · a) + c)
-
 ;;(|| (|| \a (++ \b \a)) \c)
 
-
-
-
-;; q0: #:dregex.core.Concat{:r \a, :s \b}
-
-;; nil :q2,
-;; #:dregex.core.Or{:r \b, :s nil} :q1,
-;; #:dregex.core.Concat{:r \a, :s \b} :q0
-;; :q2 nil
-;; :q1 #:dregex.core.Or{:r \b, :s nil}
-;; :q0 #:dregex.core.Concat{:r \a, :s \b}}
-
-;; D = :q2 [#{\space \@ \` \! \A \" \B \b \# \C \c \$ \D \d \% \E \e \& \F \f \' \G \g \( \H \h \) \I \i \* \J \j \+ \K \k \, \L \l \- \M \m \. \N \n \/ \O \o \0 \P \p \1 \Q \q \2 \R \r \3 \S \s \4 \T \t \5 \U \u \6 \V \v \7 \W \w \8 \X \x \9 \Y \y \: \Z \z \; \[ \{ \< \\ \| \= \] \} \> \^ \~ \? \_} :q2]
-;;     :q1 [#{\a} :q1]}
-
-;; F = #{}
