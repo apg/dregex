@@ -1,5 +1,6 @@
 (ns dregex.core
-  (:use [clojure.set :only (difference union intersection)]))
+  (:use [clojure.set :only (difference union intersection)])
+  (:use [clojure.contrib.seq :only (find-first)]))
 
 (def alphabet (into #{} (map char (range 32 127))))
 
@@ -13,20 +14,6 @@ an element of s"
            (nil? a) b
            (nil? b) a
            :else (intersection a b)))))
-
-(defmacro defp [name arglist proto & bodies]
- (let [pairs (partition 2 bodies)
-       protocol (resolve proto)
-       namekw (keyword name)
-       impls (reduce (fn [accum [t body]]
-                       (let [tm (assoc
-                                    (get accum t {})
-                                  namekw `(fn ~arglist ~body))]
-                         (assoc accum t tm)))
-                     (get :impls protocol {})
-                     pairs)]
-   `(clojure.core/-reset-methods
-     (alter-var-root ~protocol assoc :impls ~impls))))
 
 (defprotocol DFA
   (match [this s] "determines whether or not s is part of the language"))
@@ -44,7 +31,7 @@ an element of s"
   RE
   (deriv [this a] nil)
   (V [this] this)
-  (C [this] alphabet))
+  (C [this] #{alphabet}))
 
 (def eps (Epsilon.))
 
@@ -205,10 +192,7 @@ an element of s"
 (comment
   (= eps (V (deriv \a \a))) ;; matches \a
   (= eps (V (deriv (!! \a) \b))) ;; matches ^\a
-  (= eps
-     (V
 
-      ))
   (= eps (V
           (deriv
            (deriv
@@ -219,31 +203,34 @@ an element of s"
   ;; obviously we need a better way, so we'll build a DFA out of it.
   )
 
+(defn- make-label
+  [n]
+  (keyword (str "q" n)))
+
 (defn goto
-  [q [Q d] S]
+  [q [Q labels d] S]
   (let [c (first S)
         qc (deriv q c)]
-    (if (Q qc)
-      (let [dq (get d q {})]
-        [Q (assoc d q (conj dq [S qc]))])
-      (let [Qp (conj Q qc)
-            Dp (assoc d q {S qc})]
-        (explore Qp Dp qc)))))
+    (if-let [label (Q qc)]
+      (let [Dq (get d label {})
+            Dqp (conj Dq [S label])]
+        [Q labels (assoc d label Dqp)])
+      (let [new-label (make-label (count Q))
+            Qp (conj Q [qc new-label])
+            labelsp (conj labels [new-label qc])
+            Dp (assoc d new-label {S new-label})]
+        (explore Qp labelsp Dp qc)))))
 
 (defn explore
-  [Q d q]
-  (reduce #(goto q %1 %2) [Q d] (C q)))
+  [Q labels d q]
+  (reduce #(goto q %1 %2) [Q labels d] (C q)))
 
 (defn make-dfa
   [re]
   (let [q0 (deriv re eps)
-        [Q d] (explore #{q0} {}, q0)
-        F (filter #(= (V %) eps) Q)]
-    [q0 Q d F]
-    #_(reify DFA
-      (match [this s]
-        false
-        ))))
+        [Q labels d] (explore {} {} {} q0)
+        F (apply hash-set (map second (filter #(= (V (first %)) eps) Q)))]
+    [q0 Q labels d F]))
 
 
 
@@ -252,4 +239,21 @@ an element of s"
 
 ;;(a + b · a) + c)
 
-;;(|| (|| \a (++ \b \a)) \c) 
+;;(|| (|| \a (++ \b \a)) \c)
+
+
+
+
+;; q0: #:dregex.core.Concat{:r \a, :s \b}
+
+;; nil :q2,
+;; #:dregex.core.Or{:r \b, :s nil} :q1,
+;; #:dregex.core.Concat{:r \a, :s \b} :q0
+;; :q2 nil
+;; :q1 #:dregex.core.Or{:r \b, :s nil}
+;; :q0 #:dregex.core.Concat{:r \a, :s \b}}
+
+;; D = :q2 [#{\space \@ \` \! \A \" \B \b \# \C \c \$ \D \d \% \E \e \& \F \f \' \G \g \( \H \h \) \I \i \* \J \j \+ \K \k \, \L \l \- \M \m \. \N \n \/ \O \o \0 \P \p \1 \Q \q \2 \R \r \3 \S \s \4 \T \t \5 \U \u \6 \V \v \7 \W \w \8 \X \x \9 \Y \y \: \Z \z \; \[ \{ \< \\ \| \= \] \} \> \^ \~ \? \_} :q2]
+;;     :q1 [#{\a} :q1]}
+
+;; F = #{}
