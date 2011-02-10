@@ -29,6 +29,20 @@ Nullability is defined as such:
      ∅ if ν (r) = ε
  }
 
+Derivative Character Sets are defined as such:
+
+C (ε) = {Σ} 
+C (£) = {£, Σ \ £} 
+C (r) ∧ C (s) = {£r ∩ £s | £r ∈ C (r), £s ∈ C (s)} 
+C (r · s) = {􏰁
+     C (r) r is not nullable 
+     C (r) ∧ C (s) otherwise 
+}
+C (r + s) = C (r) ∧ C (s) 
+C (r & s) = C (r) ∧ C (s) 
+C (r∗ ) = C (r) 
+C ( ¬r) = C (r) 
+
 
 ## Usage
 
