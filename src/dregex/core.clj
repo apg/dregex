@@ -4,6 +4,29 @@
 
 (def alphabet (into #{} (map char (range 32 127))))
 
+;; (defn meet
+;;   "Computes the set, a intersect b | a is an element of r, b is
+;; an element of s"
+;;   [r s]
+;;   (let [cr (count r)
+;;         cs (count s)
+;;         m (max cr cs)
+;;         nr (if (< cr m)
+;;              (concat r (repeatedly (- m cr) #(identity 1)))
+;;              (seq r))
+;;         ns (if (< cs m)
+;;              (concat s (repeatedly (- m cs) #(identity 1)))
+;;              (seq s))]
+;;     (into #{}
+;;           (for [a r, b s :when (not (and (nil? a) (nil? b)))]
+;;             (do
+;;               (println "MEEEEET: " a " " b)
+;;               (cond
+;;                (nil? a) b
+;;                (nil? b) a
+;;                :else (intersection a b)))))))
+
+
 (defn meet
   "Computes the set, a intersect b | a is an element of r, b is
 an element of s"
@@ -14,6 +37,7 @@ an element of s"
            (nil? a) b
            (nil? b) a
            :else (intersection a b)))))
+
 
 (defprotocol DFA
   (match [this s] "determines whether or not s is part of the language"))
@@ -40,7 +64,7 @@ an element of s"
 (extend-type nil RE
              (deriv [this a] nil)
              (V [_] nil)
-             (C [_] #{}))
+             (C [_] (C #{})))
 
 (extend-type Character RE
              (deriv [this a]
@@ -155,6 +179,7 @@ an element of s"
    :else (Kleene. r)))
 
 
+
 ;;; || and && have other associativity optimizations that
 ;;; could be done. We'll deal with that later.
 (defn ||
@@ -207,37 +232,49 @@ an element of s"
   [n]
   (keyword (str "q" n)))
 
-(defn- goto
+(defn goto
   [q [Q labels d] S]
   (let [c (first S)
-        qc (deriv q c)]
-    (if-let [label (Q qc)]
-      (let [Dq (get d label {})
-            Dqp (conj Dq [S label])]
-        [Q labels (assoc d label Dqp)])
-      (let [new-label (make-label (count Q))
-            Qp (conj Q [qc new-label])
-            labelsp (conj labels [new-label qc])
-            Dp (assoc d new-label {S new-label})]
-        (explore Qp labelsp Dp qc)))))
+        qc (deriv q c)
+        q-label (Q q)]
+    (if-let [qc-label (Q qc)]
+      (let [Dp (assoc d q-label
+                      (conj (get d q-label {})
+                            [S qc-label]))]
+        [Q labels Dp])
+      (let [qc-label (make-label (count Q))
+            Qlabels (conj labels [qc-label qc])
+            Qp (conj Q [qc qc-label])
+            Dp (assoc d q-label
+                      (conj (get d q-label {})
+                            [S qc-label]))]
+        (explore Qp Qlabels Dp qc)))))
 
 (defn- explore
   [Q labels d q]
-  (reduce #(goto q %1 %2) [Q labels d] (C q)))
+  (reduce (partial goto q) [Q labels d] (C q)))
+
+(defn next-state
+  [tests ch]
+  (if (seq tests)
+    (let [[s label] (first tests)]
+      (if (s ch)
+        label
+        (recur (rest tests) ch)))
+    nil))
 
 (defn compile
   [re]
   (let [q0 (deriv re eps)
-        [Q labels d] (explore {} {} {} q0)
+        [Q labels d] (explore {q0 :q0} {:q0 q0} {} q0)
         F (apply hash-set (map second (filter #(= (V (first %)) eps) Q)))]
     (reify DFA
-      (match [s]
-        false
-        ))))
-
-
-
-
-;;(a + b · a) + c)
-;;(|| (|| \a (++ \b \a)) \c)
-
+      (match [this s]
+        (loop [label :q0
+               stream s]
+          (if (and (seq stream) label)
+            (recur (next-state (label d) (first stream)) (rest stream))
+            (cond
+             (nil? label) false
+             (F label) true
+             :else false)))))))
