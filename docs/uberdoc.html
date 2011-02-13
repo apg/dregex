@@ -2526,12 +2526,15 @@ $(document).ready(function() {
   color: #2a00ff !important;
 }
 </style><style type="text/css">html{margin:0;padding:0;}h1{margin:0;padding:0;}h2{margin:0;padding:0;}h3{margin:0;padding:0;}h4{margin:0;padding:0;}a{color:#261A3B;}a:visited{color:#261A3B;}</style><style type="text/css">.header{margin-top:30px;}h1.project-name{font-size:34px;display:inline;}h2.project-version{font-size:18px;margin-top:0;display:inline;margin-left:10px;}.toc-link{font-size:12px;margin-left:10px;color:#252519;text-decoration:none;}.toc-link:hover{color:#5050A6;}.toc h1{font-size:34px;margin:0;}.docs-header{border-bottom:dotted #aaa 1px;padding-bottom:10px;margin-bottom:25px;}.toc h1{font-size:24px;}.toc{border-bottom:solid #bbb 1px;margin-bottom:40px;}.toc ul{margin-left:20px;padding-left:0px;padding-top:0;margin-top:0;}.toc li{list-style-type:none;padding-left:0;}.dependencies{}.dependencies table{font-size:16px;width:99.99%;border:none;margin-left:20px;}.dependencies td{padding-right:20px;;white-space:nowrap;}.dependencies .dotted{width:99%;}.dependencies .dotted hr{margin-bottom:-6px;noshade:noshade;border-top:none;color:transparent;border-left:none;border-bottom:dotted #bbb 1px;border-right:none;background-color:transparent;height:0;}.dependencies .dep-version{text-align:right;}.plugins ul{margin-left:20px;padding-left:0px;padding-top:0;margin-top:0;}.plugins li{list-style-type:none;padding-left:0;}.header p{margin-left:20px;}</style><style type="text/css">#floating-toc{position:fixed;top:10px;right:20px;height:20px;overflow:hidden;text-align:right;}#floating-toc li{list-style-type:none;margin:0;padding:0;}</style><style type="text/css">body{margin:0;padding:0;font-family:'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;;font-size:16px;color:#252519;}h1{font-size:20px;margin-top:0;}a.anchor{text-decoration:none;color:#252519;}a.anchor:hover{color:#5050A6;}table{border-spacing:0;border-bottom:solid #ddd 1px;;margin-bottom:10px;}code{display:inline;}p{margin-top:8px;}tr{margin:0px;padding:0px;}td.docs{width:410px;max-width:410px;vertical-align:top;margin:0px;padding-left:55px;padding-right:20px;border:none;}td.docs pre{font-size:12px;overflow:hidden;}td.codes{border:none;margin:0px;padding-left:20px;width:55%;border-left:solid #E5E5EE 1px;font-size:10pt;vertical-align:top;overflow:hidden;background-color:#F5F5FF;}td.spacer{padding-bottom:40px;}pre code{display:block;padding:4px;}code{background-color:ghostWhite;border:solid #DEDEDE 1px;padding-left:3px;padding-right:3px;font-size:14px;}.syntaxhighlighter code{font-size:13px;}.footer{text-align:center;}</style><title>dregex -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">dregex</h1><h2 class="project-version">1.0.0-SNAPSHOT</h2><br /><p>FIXME: write</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.2.0</td></tr><tr><td class="dep-name">org.clojure/clojure-contrib</td><td class="dotted"><hr /></td><td class="dep-version">1.2.0</td></tr></table></div><div class="dependencies"><h3>dev dependencies</h3><table><tr><td class="dep-name">swank-clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.2.1</td></tr><tr><td class="dep-name">marginalia</td><td class="dotted"><hr /></td><td class="dep-version">0.5.0-alpha</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#dregex.core">dregex.core</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#dregex.core" name="dregex.core"><h1 class="project-name">dregex.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.2.0</td></tr><tr><td class="dep-name">org.clojure/clojure-contrib</td><td class="dotted"><hr /></td><td class="dep-version">1.2.0</td></tr></table></div><div class="dependencies"><h3>dev dependencies</h3><table><tr><td class="dep-name">swank-clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.2.1</td></tr><tr><td class="dep-name">marginalia</td><td class="dotted"><hr /></td><td class="dep-version">0.5.0-alpha</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#dregex.core">dregex.core</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#dregex.core" name="dregex.core"><h1 class="project-name">dregex.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>an implementation of derivative regular expressions</p>
 </td><td class="codes" /><pre class="brush: clojure">(ns dregex.core
   (:use [clojure.set :only (difference union intersection)])
-  (:use [clojure.contrib.seq :only (find-first)]))</pre></tr><tr><td class="docs">
-</td><td class="codes" /><pre class="brush: clojure">(def alphabet (into #{} (map char (range 32 127))))</pre></tr><tr><td class="docs"><p>Computes the set, a intersect b | a is an element of r, b is
-an element of s</p>
+  (:use [clojure.contrib.seq :only (find-first)]))</pre></tr><tr><td class="docs"><p>The default alphabet of characters that will be used
+in complements of a language.</p>
+</td><td class="codes" /><pre class="brush: clojure">(def ^{:doc }
+  *alphabet*
+  (into #{} (map char (range 32 127))))</pre></tr><tr><td class="docs"><p>Computes the set, a intersect b for all a is an element of r, b is
+   an element of s</p>
 </td><td class="codes" /><pre class="brush: clojure">(defn meet
   [r s]
   (into #{}
@@ -2539,28 +2542,42 @@ an element of s</p>
           (cond
            (nil? a) b
            (nil? b) a
-           :else (intersection a b)))))</pre></tr><tr><td class="docs">
-</td><td class="codes" /><pre class="brush: clojure">(defprotocol DFA
-  (match [this s] "determines whether or not s is part of the language"))</pre></tr><tr><td class="docs">
-</td><td class="codes" /><pre class="brush: clojure">(defprotocol RE
- (deriv [this a] "derivative with respect to a")
- (V [this] "nullable")
- (C [this] "compute the derivative character classes"))</pre></tr><tr><td class="docs">
+           :else (intersection a b)))))</pre></tr><tr><td class="docs"><p>Provides the necessary machinery to match a string.</p>
+
+<p>  A regular expression that is compiled, is turned into a DFA, which is
+  essentially a state machine that consumes a stream of characters and
+  checks to see if when the stream runs out it was last at a final state.
+  If it was, the regular expression represented by the DFA matched that
+  input stream</p>
+</td><td class="codes" /><pre class="brush: clojure">(defprotocol Matchable
+  (match [this s] "determines whether or not s is part of the language"))</pre></tr><tr><td class="docs"><p>Provides the operations needed on a regular expression to convert it
+   into a DFA that can be used for matching.</p>
+
+<p>  Janusz Brzozowski, in 1965 defined the derivation of regular expressions,
+  and the V (or 'nullable') operator. The C (or 'derivative character
+  classes') operator is thanks to Owens, Reppy, Turon.</p>
+</td><td class="codes" /><pre class="brush: clojure">(defprotocol REDerivable
+  (deriv [this a] "Derivative of this RE with respect to a.")
+  (V [this] "Is this RE nullable?")
+  (C [this] "Derivative of character classes represented by RE."))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(defrecord ^{:private true} Epsilon []
            Object
            (toString [_] "eps"))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(extend-type Epsilon
-  RE
+  REDerivable
   (deriv [this a] nil)
   (V [this] this)
-  (C [this] #{alphabet}))</pre></tr><tr><td class="docs">
-</td><td class="codes" /><pre class="brush: clojure">(def eps (Epsilon.))</pre></tr><tr><td class="docs">
-</td><td class="codes" /><pre class="brush: clojure">(declare notnil !! ++ && || **)</pre></tr><tr><td class="docs">
-</td><td class="codes" /><pre class="brush: clojure">(extend-type nil RE
+  (C [this] #{*alphabet*}))</pre></tr><tr><td class="docs"><p>A singleton instance of the Epsilon record type for
+  uniquely representing epsilon</p>
+</td><td class="codes" /><pre class="brush: clojure">(def ^{:doc }
+  eps
+  (Epsilon.))</pre></tr><tr><td class="docs">
+</td><td class="codes" /><pre class="brush: clojure">(declare notnil ! . + & | *)</pre></tr><tr><td class="docs"><p>Treatment of nil is as if nil was the #{} (i.e. the empty set)</p>
+</td><td class="codes" /><pre class="brush: clojure">(extend-type nil REDerivable
              (deriv [this a] nil)
              (V [_] nil)
-             (C [_] #{}))</pre></tr><tr><td class="docs">
-</td><td class="codes" /><pre class="brush: clojure">(extend-type Character RE
+             (C [_] (C #{})))</pre></tr><tr><td class="docs">
+</td><td class="codes" /><pre class="brush: clojure">(extend-type Character REDerivable
              (deriv [this a]
                (cond
                 (= a eps) this
@@ -2570,21 +2587,21 @@ an element of s</p>
              (C [this]
                (let [r #{this}]
                  #{r
-                   (difference alphabet r)})))</pre></tr><tr><td class="docs">
-</td><td class="codes" /><pre class="brush: clojure">(extend-type clojure.lang.PersistentHashSet RE
+                   (difference *alphabet* r)})))</pre></tr><tr><td class="docs">
+</td><td class="codes" /><pre class="brush: clojure">(extend-type clojure.lang.PersistentHashSet REDerivable
              (deriv [this a]
                (if (= a eps)
                  this
                  (if (this a) eps nil)))
              (V [_] nil)
              (C [this] #{this
-                         (difference alphabet this)}))</pre></tr><tr><td class="docs">
+                         (difference *alphabet* this)}))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(defrecord Not [r]
-  RE
+  REDerivable
   (deriv [this a]
     (if (= a eps)
       this
-      (!! (deriv r a))))
+      (! (deriv r a))))
   (V [_]
     (if (= (V r) eps) nil eps))
   (C [this] (C r))
@@ -2592,12 +2609,12 @@ an element of s</p>
   (toString [_] (str "(not " r ")")))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(def notnil (Not. nil))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(defrecord Concat [r s]
-  RE
+  REDerivable
   (deriv [this a]
     (if (= a eps)
       this
-      (|| (++ (deriv r a) s)
-          (++ (V r) (deriv s a)))))
+      (| (+ (deriv r a) s)
+         (+ (V r) (deriv s a)))))
   (V [_]
     (and (V r) (V s)))
   (C [_]
@@ -2607,21 +2624,21 @@ an element of s</p>
   Object
   (toString [_] (str "(" r "." s ")")))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(defrecord Kleene [r]
-  RE
+  REDerivable
   (deriv [this a]
     (if (= a eps)
       this
-      (++ (deriv r a) (** r))))
+      (+ (deriv r a) (* r))))
   (V [_] eps)
   (C [_] (C r))
   Object
   (toString [_] (str "(" r ")*")))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(defrecord Or [r s]
-  RE
+  REDerivable
   (deriv [this a]
     (if (= a eps)
       this
-      (|| (deriv r a) (deriv s a))))
+      (| (deriv r a) (deriv s a))))
   (V [_]
     (or (V r) (V s)))
   (C [_]
@@ -2629,35 +2646,36 @@ an element of s</p>
   Object
   (toString [_] (str "(" r " + " s ")")))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(defrecord And [r s]
-  RE
+  REDerivable
   (deriv [this a]
     (if (= a eps)
       this
-      (&& (deriv r a) (deriv s a))))
+      (& (deriv r a) (deriv s a))))
   (V [_]
     (or (V r) (V s)))
   (C [_]
     (meet (C r) (C s)))
   Object
-  (toString [_] (str "(" r " & " s ")")))</pre></tr><tr><td class="docs"><p>concat</p>
-</td><td class="codes" /><pre class="brush: clojure">(defn ++
+  (toString [_] (str "(" r " & " s ")")))</pre></tr><tr><td class="docs"><p>Returns a regular expression that matches the concatenation of the
+   two regular expressions <code>r</code> and <code>s</code></p>
+</td><td class="codes" /><pre class="brush: clojure">(defn +
   [r s]
   (cond
    (or (= nil r) (= nil s)) nil
    (= eps r) s
    (= eps s) r
-   :else (Concat. r s)))</pre></tr><tr><td class="docs"><p>kleene</p>
-</td><td class="codes" /><pre class="brush: clojure">(defn **
+   :else (Concat. r s)))</pre></tr><tr><td class="docs"><p>Kleene star. Matches the regular expression <code>r</code> 0 or unlimited times</p>
+</td><td class="codes" /><pre class="brush: clojure">(defn *
   [r]
   (cond
    (= (class r) Kleene) r
    (= r eps) eps
    (= r nil) eps
-   :else (Kleene. r)))</pre></tr><tr><td class="docs"><p>or</p>
+   :else (Kleene. r)))</pre></tr><tr><td class="docs"><p>Logical or. Matches either <code>r</code> or <code>s</code></p>
 
 <p>|| and &amp;&amp; have other associativity optimizations that
 could be done. We'll deal with that later.</p>
-</td><td class="codes" /><pre class="brush: clojure">(defn ||
+</td><td class="codes" /><pre class="brush: clojure">(defn |
   [r s]
   (let [hashr? (instance? clojure.lang.PersistentHashSet r)
         hashs? (instance? clojure.lang.PersistentHashSet r)]
@@ -2668,29 +2686,29 @@ could be done. We'll deal with that later.</p>
      (and hashr? hashs?) (union r s)
      (and (instance? Character r) hashs?) (conj r s)
      (and (instance? Character s) hashr?) (conj s r) 
-     :else (Or. r s))))</pre></tr><tr><td class="docs"><p>and</p>
-</td><td class="codes" /><pre class="brush: clojure">(defn &&
+     :else (Or. r s))))</pre></tr><tr><td class="docs"><p>Logical and. Matches both <code>r</code> and <code>s</code></p>
+</td><td class="codes" /><pre class="brush: clojure">(defn &
   [r s]
   (cond
    (= r s) r
    (= nil r) nil
    (= notnil r) s
-   :else (And. r s)))</pre></tr><tr><td class="docs"><p>complement</p>
-</td><td class="codes" /><pre class="brush: clojure">(defn !!
+   :else (And. r s)))</pre></tr><tr><td class="docs"><p>Complement. Matches the opposite of <code>r</code></p>
+</td><td class="codes" /><pre class="brush: clojure">(defn !
   [r]
   (cond
    (= (class r) Not) (:r r)
-   (instance? Character r) (difference alphabet #{r})
-   (instance? clojure.lang.PersistentHashSet r) (difference alphabet r)
+   (instance? Character r) (difference *alphabet* #{r})
+   (instance? clojure.lang.PersistentHashSet r) (difference *alphabet* r)
    :else (Not. r)))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(comment
   (= eps (V (deriv \a \a))) ;; matches \a
-  (= eps (V (deriv (!! \a) \b))) ;; matches ^\a
+  (= eps (V (deriv (! \a) \b))) ;; matches ^\a
 
   (= eps (V
           (deriv
            (deriv
-            (++ (|| \a \b) (!! \b)) ;; matches (a|b)[^b]
+            (+ (| \a \b) (! \b)) ;; matches (a|b)[^b]
             \b)
            \z)))
 
@@ -2702,27 +2720,61 @@ could be done. We'll deal with that later.</p>
 </td><td class="codes" /><pre class="brush: clojure">(defn- goto
   [q [Q labels d] S]
   (let [c (first S)
-        qc (deriv q c)]
-    (if-let [label (Q qc)]
-      (let [Dq (get d label {})
-            Dqp (conj Dq [S label])]
-        [Q labels (assoc d label Dqp)])
-      (let [new-label (make-label (count Q))
-            Qp (conj Q [qc new-label])
-            labelsp (conj labels [new-label qc])
-            Dp (assoc d new-label {S new-label})]
-        (explore Qp labelsp Dp qc)))))</pre></tr><tr><td class="docs">
+        qc (deriv q c)
+        q-label (Q q)]
+    (if-let [qc-label (Q qc)]
+      (let [Dp (assoc d q-label
+                      (conj (get d q-label {})
+                            [S qc-label]))]
+        [Q labels Dp])
+      (let [qc-label (make-label (count Q))
+            Qlabels (conj labels [qc-label qc])
+            Qp (conj Q [qc qc-label])
+            Dp (assoc d q-label
+                      (conj (get d q-label {})
+                            [S qc-label]))]
+        (explore Qp Qlabels Dp qc)))))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(defn- explore
   [Q labels d q]
-  (reduce #(goto q %1 %2) [Q labels d] (C q)))</pre></tr><tr><td class="docs">
+  (reduce (partial goto q) [Q labels d] (C q)))</pre></tr><tr><td class="docs">
+</td><td class="codes" /><pre class="brush: clojure">(defn- next-state
+  "Finds the state to go to next when given `ch`
+  `tests` is a hashmap from character sets to labels.
+  `ch` is a character in the alphabet"
+  [tests ch]
+  (if (seq tests)
+    (let [[s label] (first tests)]
+      (if (s ch)
+        label
+        (recur (rest tests) ch)))
+    nil))</pre></tr><tr><td class="docs">
 </td><td class="codes" /><pre class="brush: clojure">(defn compile
+  "Compiles a regular expression into a DFA which is Matchable."
   [re]
   (let [q0 (deriv re eps)
-        [Q labels d] (explore {} {} {} q0)
+        [Q labels d] (explore {q0 :q0} {:q0 q0} {} q0)
         F (apply hash-set (map second (filter #(= (V (first %)) eps) Q)))]
-    (reify DFA
-      (match [s]
-        false))))</pre></tr><tr><td class="docs"><p>(a + b · a) + c)
-(|| (|| \a (++ \b \a)) \c)</p>
-</td><td class="codes" /></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/fogus/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a><div id="floating-toc"><ul><li class="floating-toc-li" id="floating-toc_dregex.core">dregex.core</li></ul></div></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
+    (reify Matchable
+      (match [this s]
+        (loop [label :q0
+               stream s]
+          (if (and (seq stream) label)
+            (recur (next-state (label d) (first stream)) (rest stream))
+            (cond
+             (nil? label) false
+             (F label) true
+             :else false)))))))</pre></tr><tr><td class="docs">
+</td><td class="codes" /><pre class="brush: clojure">(comment
+  (= (match
+      (compile
+       (+ (| \a \b) (! \b)))
+      "az")
+     true)
+
+  (= (match
+      (compile
+       (+ (| \a \b) (! \b)))
+      "ab")
+     true)
+  )</pre></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/fogus/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a><div id="floating-toc"><ul><li class="floating-toc-li" id="floating-toc_dregex.core">dregex.core</li></ul></div></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
        SyntaxHighlighter.all()</script></body></html>
